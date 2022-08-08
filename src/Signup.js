@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Signup = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
@@ -10,35 +11,34 @@ const Signup = () => {
     userPassword: '',
     userPasswordCheck: '',
   });
-  const { setEmailError, setSetEmailError } = useState(true);
-  const { setPassword, setSetPassWord } = useState(true);
+
   const { userEmail, userPassword, userPasswordCheck } = userInfo;
-  const { signUpSubmitButon, setSignupSubmit } = 0;
+
+  const condition =
+    userEmail.includes('@') &&
+    userPassword.length >= 8 &&
+    userEmail.includes(',') &&
+    userPassword === userPasswordCheck;
+
   const getUserInfo = e => {
     const { value, name } = e.target;
-    setUserInfo({ [name]: value });
-    checkEmail();
-  };
-  const ErrorMessage = {
-    'CHECK EMAIL': '이메일 주소를 다시 확인해주세요.',
-    'INVALID PASSWORD': '비밀번호를 다시 확인해주세요.',
-    'CHECK PASSWORD': '입력하신 비밀번호가 다릅니다.',
+    setUserInfo({ ...userInfo, [name]: value });
   };
 
-  const { submitButton, setSubmitButton } = useState(true);
-  useEffect(() => {
-    checkEmail();
-    invalidPassword();
-  }, [userInfo]);
+  const isSignup = () => {
+    axios
+      .post('http://localhost:8080/users/create', {
+        email: userEmail,
+        password: userPassword,
+      })
+      .then(res => {
+        localStorage.setItem('access_token', res.data.token);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
-  const checkEmail = () => {
-    userEmail.includes('@' && '.')
-      ? setSetEmailError(true)
-      : setSetEmailError(false);
-  };
-  const invalidPassword = () => {
-    userPassword.length >= 8 ? setSetPassWord(true) : setSetPassWord(false);
-  };
   return (
     <Wrapper>
       <UserInputForm>
@@ -51,29 +51,23 @@ const Signup = () => {
               name="userEmail"
               onChange={getUserInfo}
             />
-            {setEmailError === false ? (
-              <Alert>{ErrorMessage['CHECK EMAIL']}</Alert>
-            ) : null}
           </InputUserId>
           <InputUserPassword>
             <InputTitle>User Password</InputTitle>
             <Input
+              type="password"
               placeholder="비밀번호를 입력해주세요."
               name="userPassword"
               onChange={getUserInfo}
             />
-
-            {setSetPassWord === false ? (
-              <Alert>{ErrorMessage['INVALID PASSWORD']}</Alert>
-            ) : null}
           </InputUserPassword>
           <InputUserPassword>
             <Input
+              type="password"
               placeholder="비밀번호를 다시 입력해주세요."
               name="userPassword"
               onChange={getUserInfo}
             />
-            <Alert>{ErrorMessage['CHECK PASSWORD']}</Alert>
           </InputUserPassword>
         </InputUserSection>
         <FormFooter>
@@ -81,7 +75,12 @@ const Signup = () => {
             <Button block>로그인 페이지 이동</Button>
           </LoginButton>
           <SingupButton>
-            <Button type="primary" block disabled={submitButton}>
+            <Button
+              type="primary"
+              block
+              disabled={!!condition}
+              onClick={isSignup}
+            >
               회원가입
             </Button>
           </SingupButton>
@@ -120,11 +119,6 @@ const FormFooter = styled.div`
 const SingupButton = styled.div``;
 const LoginButton = styled.div`
   margin-bottom: 10px;
-`;
-const Alert = styled.div`
-  margin-top: 10px;
-  font-size: 12px;
-  color: red;
 `;
 
 export default Signup;
