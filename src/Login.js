@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
     userEmail: '',
@@ -15,14 +16,28 @@ const Login = () => {
     navigate('/sign-up');
   };
 
-  const ErrorMessage = {
-    'INVALID EMAIL': '아이디 혹은 비밀번호를 확인 해 주세요',
-    'INVALID PASSWORD': '아이디 혹은 비밀번호를 확인 해 주세요',
-    'NOT EXISTS USER': '없는 유저 입니다',
-  };
   const getUserInfo = e => {
     const { value, name } = e.target;
-    setUserInfo({ [name]: value });
+    setUserInfo({ ...userInfo, [name]: value });
+  };
+
+  const condition =
+    userEmail.includes('@') &&
+    userPassword.length >= 8 &&
+    userEmail.includes(',');
+
+  const isLogin = () => {
+    axios
+      .post('http://localhost:8080/users/login', {
+        email: userEmail,
+        password: userPassword,
+      })
+      .then(res => {
+        localStorage.setItem('access_token', res.data.token);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <Wrapper>
@@ -41,6 +56,7 @@ const Login = () => {
             <InputTitle>User Password</InputTitle>
             <Input
               placeholder="비밀번호를 입력해주세요."
+              type="password"
               name="userPassword"
               onChange={getUserInfo}
             />
@@ -49,7 +65,9 @@ const Login = () => {
         <FormFooter>
           <SingupButton>
             <LoginButton>
-              <Button block>로그인</Button>
+              <Button block onClick={isLogin} disabled={!!condition}>
+                로그인
+              </Button>
             </LoginButton>
             <Button type="primary" block onClick={goToSignup}>
               회원가입

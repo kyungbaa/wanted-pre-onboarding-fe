@@ -25,6 +25,9 @@ const Signup = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  const goToLogin = () => {
+    navigate('/auth');
+  };
   const isSignup = () => {
     axios
       .post('http://localhost:8080/users/create', {
@@ -72,7 +75,14 @@ const Signup = () => {
         </InputUserSection>
         <FormFooter>
           <LoginButton>
-            <Button block>로그인 페이지 이동</Button>
+            <Button
+              block
+              onClick={() => {
+                goToLogin();
+              }}
+            >
+              로그인 페이지 이동
+            </Button>
           </LoginButton>
           <SingupButton>
             <Button
