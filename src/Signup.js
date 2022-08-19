@@ -17,8 +17,7 @@ const Signup = () => {
   const condition =
     userEmail.includes('@') &&
     userPassword.length >= 8 &&
-    userEmail.includes(',') &&
-    userPassword === userPasswordCheck;
+    userPassword == userPasswordCheck;
 
   const getUserInfo = e => {
     const { value, name } = e.target;
@@ -26,14 +25,17 @@ const Signup = () => {
   };
 
   const goToLogin = () => {
-    navigate('/auth');
+    navigate('/auth/signin');
   };
   const isSignup = () => {
     axios
-      .post('http://localhost:8080/users/create', {
-        email: userEmail,
-        password: userPassword,
-      })
+      .post(
+        'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/auth/signup',
+        {
+          email: userEmail,
+          password: userPassword,
+        }
+      )
       .then(res => {
         localStorage.setItem('access_token', res.data.token);
       })
@@ -68,7 +70,7 @@ const Signup = () => {
             <Input
               type="password"
               placeholder="비밀번호를 다시 입력해주세요."
-              name="userPassword"
+              name="userPasswordCheck"
               onChange={getUserInfo}
             />
           </InputUserPassword>
@@ -88,7 +90,7 @@ const Signup = () => {
             <Button
               type="primary"
               block
-              disabled={!!condition}
+              disabled={!condition}
               onClick={isSignup}
             >
               회원가입

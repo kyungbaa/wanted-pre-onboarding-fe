@@ -13,7 +13,7 @@ const Login = () => {
   const { userEmail, userPassword } = userInfo;
   const navigate = useNavigate();
   const goToSignup = () => {
-    navigate('/sign-up');
+    navigate('/auth/signup');
   };
 
   const getUserInfo = e => {
@@ -21,19 +21,20 @@ const Login = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
-  const condition =
-    userEmail.includes('@') &&
-    userPassword.length >= 8 &&
-    userEmail.includes(',');
+  const condition = userEmail.includes('@') && userPassword.length >= 8;
 
   const isLogin = () => {
     axios
-      .post('http://localhost:8080/users/login', {
-        email: userEmail,
-        password: userPassword,
-      })
+      .post(
+        'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/auth/signin',
+        {
+          email: userEmail,
+          password: userPassword,
+        }
+      )
       .then(res => {
-        localStorage.setItem('access_token', res.data.token);
+        localStorage.setItem('access_token', res.data.access_token);
+        navigate('/board');
       })
       .catch(function (error) {
         console.log(error);
@@ -65,7 +66,7 @@ const Login = () => {
         <FormFooter>
           <SingupButton>
             <LoginButton>
-              <Button block onClick={isLogin} disabled={!!condition}>
+              <Button block onClick={isLogin} disabled={!condition}>
                 로그인
               </Button>
             </LoginButton>
