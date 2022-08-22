@@ -1,56 +1,98 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import 'antd/dist/antd.css';
 import axios from 'axios';
-import { Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import PostNewEdit from './components/PostNewEdit';
+import PostContents from './components/PostContents';
+
 const Board = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('access_token');
   const [toDoListText, setTodDoListText] = useState('');
+  const [complete, setComplete] = useState(false);
+  const [toDoList, setToDoList] = useState([]);
+
   useEffect(() => {
     if (!token) {
       alert('로그인해주세요');
-      navigate('/auth/signup');
+      navigate('/auth/signin');
     }
-    return;
   }, []);
 
   const isInputContent = e => {
     setTodDoListText(e.target.value);
   };
 
-  const isEditNewPost = () => {
+  const getData = () => {
     axios
-      .post(
+      .get(
         'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos',
-        {
-          todo: toDoListText,
-        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       )
+      .then(res => {
+        setToDoList(res.data);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const isNewPost = () => {
+    axios
+      .post(
+        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {
+          todo: toDoListText,
+        }
+      )
       .catch(function (error) {
         console.log(error);
       });
+    getData();
   };
+
+  const isDeletePost = id => {
+    axios
+      .delete(
+        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch(err => {
+        console.log(err);
+      });
+    getData();
+  };
+
+  const isComplete = () => {
+    setComplete(!complete);
+  };
+
   return (
     <Wrapper>
       <ToDoBoard>
         <Title>To-Do List</Title>
         <ToDoContents>
-          <PostNewEdit
-            isInputContent={isInputContent}
-            isEditNewPost={isEditNewPost}
-          ></PostNewEdit>
+          <PostNewEdit isInputContent={isInputContent} isNewPost={isNewPost} />
           <PostListSections>
-            <PostListContents>
-              <PostTitle>제목임다</PostTitle>
-            </PostListContents>
+            <PostContents
+              toDoList={toDoList}
+              isComplete={isComplete}
+              isDeletePost={isDeletePost}
+            />
           </PostListSections>
         </ToDoContents>
       </ToDoBoard>
@@ -62,14 +104,12 @@ const Wrapper = styled.div`
 `;
 
 const ToDoBoard = styled.div`
-  width: 450px;
+  width: 500px;
   padding: 40px 30px;
   background-color: ${({ theme }) => theme.whiteGrey};
 `;
 
-const ToDoContents = styled.div`
-  height: 300px;
-`;
+const ToDoContents = styled.div``;
 
 const Title = styled.h3`
   margin-left: 8px;
@@ -81,24 +121,6 @@ const PostListSections = styled.form`
   flex-direction: column;
   margin-top: 20px;
   width: 100%;
-`;
-const PostListContents = styled.div`
-  ${({ theme }) => theme.flexMixin('center', 'space-between')}
-  margin-top: 4px;
-  padding: 14px;
-  margin-bottom: 16px;
-  border-radius: 2px;
-  background: #fafafa;
-  box-shadow: 5px 5px 10px #eeeeee, -5px -5px 10px #ffffff;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  &:hover {
-    color: #1890ff;
-  }
-`;
-const PostTitle = styled.p`
-  font-size: 16px;
-  font-weight: 600;
 `;
 
 export default Board;

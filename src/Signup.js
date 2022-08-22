@@ -17,7 +17,7 @@ const Signup = () => {
   const condition =
     userEmail.includes('@') &&
     userPassword.length >= 8 &&
-    userPassword == userPasswordCheck;
+    userPassword === userPasswordCheck;
 
   const getUserInfo = e => {
     const { value, name } = e.target;
@@ -38,6 +38,7 @@ const Signup = () => {
       )
       .then(res => {
         localStorage.setItem('access_token', res.data.token);
+        navigate('/auth/signin');
       })
       .catch(function (error) {
         console.log(error);
