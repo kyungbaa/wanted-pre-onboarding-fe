@@ -1,11 +1,7 @@
-# 안녕하세요 디자이너가 아니라 프론트 개발자로서 인사드립니다.
+## 원티드 사전과제 Login과 TodoList 😎
 
-몇번의 이직을 거쳐 MES개발 회사에 입사하여 개발자분들과 처음으로 일을 하게되었습니다.</br>
-점점 나아지기는 했지만 조금 더 나은 소통 방법을 알고 싶어서 </br>
-국비지원을 신청했고, 맛만 보고 나오려고 했는데 </br>
-뜻밖에 프론트엔드가 너무 재밌어서 프론트엔드 부트 캠프를 시작하고 이제 마무리 단계에 있습니다.</br>
-</br>
-이제 디자이너가 아니라 개발자로서 나아가겠습니다.</br>
-</br>늘 고민하는 개발자가 되어 한 사람분의 프론트엔드 개발역량을 발휘하도록 하겠습니다.
+### 사용 기술 stack
 
-감사합니다.
+<img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=CSS3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white"> <img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=Styled Components&logoColor=white"> <img src="https://img.shields.io/badge/antdesign-0170FE?style=for-the-badge&logo=antdesign&logoColor=white">
+
+  </br>
