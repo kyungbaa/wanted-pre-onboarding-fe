@@ -8,8 +8,8 @@ const Router = props => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/auth/signin" element={<Signin />} />
-        <Route path="/auth/signup" element={<Signup />} />
+        <Route path="/" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/board" element={<Board />} />
       </Routes>
     </BrowserRouter>

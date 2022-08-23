@@ -9,13 +9,13 @@ const Board = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('access_token');
   const [toDoListText, setTodDoListText] = useState('');
-  const [complete, setComplete] = useState(false);
   const [toDoList, setToDoList] = useState([]);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     if (!token) {
       alert('로그인해주세요');
-      navigate('/auth/signin');
+      navigate('/');
     }
   }, []);
 
@@ -42,27 +42,29 @@ const Board = () => {
     getData();
   }, []);
 
-  const isNewPost = () => {
-    axios
+  const isNewPost = async () => {
+    await axios
       .post(
         `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos`,
+        {
+          todo: toDoListText,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
-        {
-          todo: toDoListText,
         }
       )
       .catch(function (error) {
         console.log(error);
       });
     getData();
+
+    setTodDoListText('');
   };
 
-  const isDeletePost = id => {
-    axios
+  const isDeletePost = async id => {
+    await axios
       .delete(
         `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
         {
@@ -77,10 +79,6 @@ const Board = () => {
     getData();
   };
 
-  const isComplete = () => {
-    setComplete(!complete);
-  };
-
   return (
     <Wrapper>
       <ToDoBoard>
@@ -88,11 +86,21 @@ const Board = () => {
         <ToDoContents>
           <PostNewEdit isInputContent={isInputContent} isNewPost={isNewPost} />
           <PostListSections>
-            <PostContents
-              toDoList={toDoList}
-              isComplete={isComplete}
-              isDeletePost={isDeletePost}
-            />
+            {toDoList.map(({ id, todo, isCompleted }) => {
+              return (
+                <PostContents
+                  key={id}
+                  id={id}
+                  isCompleted={isCompleted}
+                  todo={todo}
+                  isDeletePost={isDeletePost}
+                  isEditMode={isEditMode}
+                  setIsEditMode={setIsEditMode}
+                  getData={getData}
+                  token={token}
+                />
+              );
+            })}
           </PostListSections>
         </ToDoContents>
       </ToDoBoard>
@@ -105,7 +113,7 @@ const Wrapper = styled.div`
 
 const ToDoBoard = styled.div`
   width: 500px;
-  padding: 40px 30px;
+  padding: 40px 50px;
   background-color: ${({ theme }) => theme.whiteGrey};
 `;
 
@@ -119,7 +127,7 @@ const Title = styled.h3`
 `;
 const PostListSections = styled.form`
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 26px;
   width: 100%;
 `;
 
