@@ -39,4 +39,28 @@
 
 #### 구현 화면
 
-![signin signup](https://user-images.githubusercontent.com/93850460/186147245-e1516c2d-aab9-459c-95e7-c277ddf7b675.gif)
+![signin-signup](https://user-images.githubusercontent.com/93850460/186148238-a468a30e-e695-4292-8e37-765941b4040d.gif)
+
+페이지 안에 이메일 입력창, 비밀번호 입력창, 제출 버튼이 포함된 형태로 구성해주세요.
+로그인, 회원가입을 별도의 경로로 분리해도 무방합니다
+
+- / 경로페이지로 이동하면 로그인 요청 화면
+- 회원 가입 버튼 클릭 시 회원 가입 페이지 이동
+- 회원 정보 입력 후 회원 가입
+- 회원 가입 완료 후 로그인 페이지 이동
+- 가입 정보 입력 후 todo페이지로 이동
+
+#### @를 포함할것 8글자 이상일 것
+
+```javascript
+const condition =
+  userEmail.includes('@') &&
+  userPassword.length >= 8 &&
+  userPassword === userPasswordCheck;
+```
+
+```javascript
+<Button type="primary" block disabled={!condition} onClick={isSignup}>
+  회원가입
+</Button>
+```
