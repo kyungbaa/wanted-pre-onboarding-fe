@@ -55,7 +55,6 @@ const Board = () => {
         console.log(error);
       });
     getData();
-
     setTodDoListText('');
   };
 
@@ -77,7 +76,11 @@ const Board = () => {
       <ToDoBoard>
         <Title>To-Do List</Title>
         <ToDoContents>
-          <PostNewEdit isInputContent={isInputContent} isNewPost={isNewPost} />
+          <PostNewEdit
+            isInputContent={isInputContent}
+            isNewPost={isNewPost}
+            toDoListText={toDoListText}
+          />
           <PostListSections>
             {toDoList.map(({ id, todo, isCompleted }) => {
               return (

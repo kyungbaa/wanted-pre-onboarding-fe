@@ -86,3 +86,66 @@ useEffect(() => {
   }
 }, []);
 ```
+
+### 회원가입 & 로그인 페이지
+
+#### 구현 화면
+
+![todo](https://user-images.githubusercontent.com/93850460/186153661-fa3d653d-98a5-4eaf-8ea5-2ec53f73554e.gif)
+
+- todo list 작성
+- 수정 버튼 클릭 시 input창 활성화
+- 수정 상태에서 input글 작성 후 확인버튼 클릭 시 적용
+- 수정 상태에서 ⚪️ (미완료)클릭 시 🔵 (완료) 변경
+- 삭제 버튼 클릭 시 해당 목록 삭제
+
+```javascript
+const [toDoListText, setTodDoListText] = useState('');
+
+const isNewPost = async () => {
+  await axios
+    .post(
+      `${APP_API.todo}`,
+      {
+        todo: toDoListText,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .catch(function (error) {
+      console.log(error);
+    });
+  getData();
+  setTodDoListText('');
+};
+
+<PostEditInput>
+  <Input name="postInput" value={toDoListText} onChange={isInputContent} />
+</PostEditInput>;
+```
+
+```javascript
+const PostNewEdit = ({ isInputContent, isNewPost, toDoListText }) => {
+  return (
+    <PostNewEditSection>
+      <PostEditInput>
+        <Input
+          name="postInput"
+          value={toDoListText}
+          onChange={isInputContent}
+        />
+      </PostEditInput>
+      <PostEditButton>
+        <Button type="primary" block onClick={isNewPost}>
+          작성
+        </Button>
+      </PostEditButton>
+    </PostNewEditSection>
+  );
+};
+```
+
+input c
