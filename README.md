@@ -50,7 +50,7 @@
 - 회원 가입 완료 후 로그인 페이지 이동
 - 가입 정보 입력 후 todo페이지로 이동
 
-#### @를 포함할것 8글자 이상일 것
+@를 포함할것 8글자 이상일 것
 
 ```javascript
 const condition =
@@ -58,6 +58,8 @@ const condition =
   userPassword.length >= 8 &&
   userPassword === userPasswordCheck;
 ```
+
+요구조건 충족시 버튼 활성화
 
 ```javascript
 <Button type="primary" block disabled={!condition} onClick={isSignup}>
