@@ -17,6 +17,7 @@
 
 ### 파일 트리
 
+```bash
 📦 src
 ┣ 📂 components
 ┃ ┣ 📜 PostContents.js
@@ -32,3 +33,4 @@
 ┣ 📜 config.js
 ┣ 📜 index.css
 ┗ 📜 index.js
+```
