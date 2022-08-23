@@ -41,9 +41,6 @@
 
 ![signin-signup](https://user-images.githubusercontent.com/93850460/186148238-a468a30e-e695-4292-8e37-765941b4040d.gif)
 
-페이지 안에 이메일 입력창, 비밀번호 입력창, 제출 버튼이 포함된 형태로 구성해주세요.
-로그인, 회원가입을 별도의 경로로 분리해도 무방합니다
-
 - / 경로페이지로 이동하면 로그인 요청 화면
 - 회원 가입 버튼 클릭 시 회원 가입 페이지 이동
 - 회원 정보 입력 후 회원 가입
@@ -65,4 +62,27 @@ const condition =
 <Button type="primary" block disabled={!condition} onClick={isSignup}>
   회원가입
 </Button>
+```
+
+![2222](https://user-images.githubusercontent.com/93850460/186149799-2b328af4-287f-4b61-a54e-17912de2900b.gif)
+
+로컬스토리지에 토큰이 없는 상태로 /todo페이지 접속 시, /경로로 리다이렉트
+
+```javascript
+useEffect(() => {
+  if (!token) {
+    alert('로그인해주세요');
+    navigate('/');
+  }
+}, []);
+```
+
+로컬스토리지에 토큰이 있는 상태로 /페이지 접속 시, /todo경로로 리다이렉트
+
+```javascript
+useEffect(() => {
+  if (token) {
+    navigate('/todo');
+  }
+}, []);
 ```

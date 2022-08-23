@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+const token = localStorage.getItem('access_token');
+
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
     userEmail: '',
@@ -22,7 +25,11 @@ const Login = () => {
   };
 
   const condition = userEmail.includes('@') && userPassword.length >= 8;
-
+  useEffect(() => {
+    if (token) {
+      navigate('/todo');
+    }
+  }, []);
   const isLogin = () => {
     axios
       .post(
