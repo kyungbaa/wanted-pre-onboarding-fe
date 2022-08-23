@@ -34,7 +34,7 @@ const Login = () => {
       )
       .then(res => {
         localStorage.setItem('access_token', res.data.access_token);
-        navigate('/board');
+        navigate('/todo');
       })
       .catch(function (error) {
         console.log(error);

@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Signin from './Signin';
-import Signup from './Signup';
-import Board from './Board';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import Board from './pages/Board';
 
 const Router = props => {
   return (
@@ -10,7 +10,7 @@ const Router = props => {
       <Routes>
         <Route path="/" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/board" element={<Board />} />
+        <Route path="/todo" element={<Board />} />
       </Routes>
     </BrowserRouter>
   );

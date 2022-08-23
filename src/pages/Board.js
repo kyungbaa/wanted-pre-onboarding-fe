@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import PostNewEdit from './components/PostNewEdit';
-import PostContents from './components/PostContents';
-
+import PostNewEdit from '../components/PostNewEdit';
+import PostContents from '../components/PostContents';
+import { APP_API } from '../config';
 const Board = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('access_token');
   const [toDoListText, setTodDoListText] = useState('');
   const [toDoList, setToDoList] = useState([]);
-  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -25,14 +24,11 @@ const Board = () => {
 
   const getData = () => {
     axios
-      .get(
-        'https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .get(`${APP_API.todo}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(res => {
         setToDoList(res.data);
       });
@@ -45,7 +41,7 @@ const Board = () => {
   const isNewPost = async () => {
     await axios
       .post(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos`,
+        `${APP_API.todo}`,
         {
           todo: toDoListText,
         },
@@ -65,14 +61,11 @@ const Board = () => {
 
   const isDeletePost = async id => {
     await axios
-      .delete(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .delete(`${APP_API.todo}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .catch(err => {
         console.log(err);
       });
@@ -94,10 +87,9 @@ const Board = () => {
                   isCompleted={isCompleted}
                   todo={todo}
                   isDeletePost={isDeletePost}
-                  isEditMode={isEditMode}
-                  setIsEditMode={setIsEditMode}
                   getData={getData}
                   token={token}
+                  APP_API={APP_API}
                 />
               );
             })}

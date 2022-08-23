@@ -8,11 +8,11 @@ const PostContents = ({
   id,
   isCompleted,
   todo,
-  isEditMode,
-  setIsEditMode,
+  APP_API,
   getData,
   token,
 }) => {
+  const [isEditMode, setIsEditMode] = useState(false);
   const [editTodoContents, setEditContents] = useState({
     todo: todo,
     isCompleted: isCompleted,
@@ -32,7 +32,7 @@ const PostContents = ({
   const isEditPost = async id => {
     await axios
       .put(
-        `https://5co7shqbsf.execute-api.ap-northeast-2.amazonaws.com/production/todos/${id}`,
+        `${APP_API.todo}/${id}`,
         {
           todo: editTodoContents.todo,
           isCompleted: editTodoContents.isCompleted,
@@ -43,9 +43,7 @@ const PostContents = ({
           },
         }
       )
-      .then(res => {
-        console.log(res);
-      })
+
       .catch(function (error) {
         console.log(error);
       });
@@ -96,12 +94,7 @@ const PostContents = ({
       )}
       {isEditMode && (
         <PostEdit>
-          <Button
-            type="text"
-            onClick={() => {
-              setIsEditMode(prev => !prev);
-            }}
-          >
+          <Button type="text" onClick={() => setIsEditMode(prev => !prev)}>
             취소
           </Button>
 
