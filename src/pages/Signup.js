@@ -25,7 +25,7 @@ const Signup = () => {
   };
 
   const goToLogin = () => {
-    navigate('/auth/signin');
+    navigate('/');
   };
   const isSignup = () => {
     axios
@@ -38,7 +38,7 @@ const Signup = () => {
       )
       .then(res => {
         localStorage.setItem('access_token', res.data.token);
-        navigate('/auth/signin');
+        navigate('/');
       })
       .catch(function (error) {
         console.log(error);

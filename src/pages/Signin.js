@@ -13,7 +13,7 @@ const Login = () => {
   const { userEmail, userPassword } = userInfo;
   const navigate = useNavigate();
   const goToSignup = () => {
-    navigate('/auth/signup');
+    navigate('/signup');
   };
 
   const getUserInfo = e => {
