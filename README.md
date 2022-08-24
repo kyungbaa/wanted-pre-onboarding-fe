@@ -2,7 +2,7 @@
 
 ### 지원자
 
-이름: 이후경
+이름: 이후경 </br>
 이메일: kyungbaa@gmail.com
 
 ### 사용 기술 stack
@@ -354,8 +354,7 @@ const PostContents = ({
           <Button type="text" onClick={() => setIsEditMode(prev => !prev)}>
             취소
           </Button>
-
-          <Button
+          햣<Button
             type="link"
             onClick={() => {
               isEditPost(id);
@@ -371,9 +370,9 @@ const PostContents = ({
 };
 ```
 
-수정 버튼 클릭 시 `isEditMode` true로 변경
-`!isEditMode &&`, `isEditMode &&` 상태에 따라 보여주는 부분이 다름
-(false: ToDO List내용, 수정버튼, 삭제버튼 | true: Input창, 취소버튼, 확인버튼)
-⚪️ (미완료) 클릭 시 🔵(완료)로 변경
-`<Input value={editTodoContents.todo} onChange={handleEdit} /> `에 이전에 작성한 내용을 보여줌
+수정 버튼 클릭 시 `isEditMode` true로 변경 </br>
+`!isEditMode &&`, `isEditMode &&` 상태에 따라 보여주는 부분이 다름 </br>
+(false: ToDO List내용, 수정버튼, 삭제버튼 | true: Input창, 취소버튼, 확인버튼) </br>
+⚪️ (미완료) 클릭 시 🔵(완료)로 변경 </br>
+`<Input value={editTodoContents.todo} onChange={handleEdit} /> `에 이전에 작성한 내용을 보여줌 </br>
 수정모드시에 수정취소와 수정완료 버튼이 있으며 수정 완료시 put 통신을 통하여 업데이트, 수정 취소시 기존 내용으로 변경
